@@ -1,66 +1,153 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# ATM İdarəetməsi API
 
-## About Laravel
+Bu layihə **ATM idarəetməsi** üçün API təqdim edir. API istifadəçiləri **ATM**-dən pul nağdlaşdırmaq, hesablar yaratmaq, əməliyyat tarixçəsini əldə etmək və xüsusi istifadəçilərin əməliyyatları silməsini təmin edir. Məqsəd **minimum əskinazlarla** pul nağdlaşdırılmasını təmin etməkdir.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Layihə Tələbləri
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **PHP**: ^8
+- **Laravel**: ^8
+- **MySQL**: 5.7 və ya daha yüksək versiya
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Quraşdırma
 
-## Learning Laravel
+Bu layihəni local serverdə qurmaq üçün aşağıdakı addımları izləyin:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 1. Git Repository-ni Klonlayın
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```bash
+git clone https://github.com/RamilHuseynov/ATM.git
+cd ATM
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 2. Composer-i Yükləyin
 
-## Laravel Sponsors
+Composer-i istifadə edərək asılılıqları yükləyin:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+composer install
+```
 
-### Premium Partners
+### 3. `.env` Faylını Konfiqurasiya Edin
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+`.env.example` faylını `.env` olaraq kopyalayın və verilənlər bazası və digər konfiqurasiya parametrlərini uyğunlaşdırın.
 
-## Contributing
+```bash
+cp .env.example .env
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 4. Verilənlər Bazası
 
-## Code of Conduct
+Verilənlər bazasını qurmaq və miqrasiyaları icra etmək üçün aşağıdakı əmri icra edin:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+php artisan migrate
+```
 
-## Security Vulnerabilities
+### 5. Əlavə Konfiqurasiyalar
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Əgər **middleware** və **routes** ilə bağlı xüsusi dəyişikliklər etmisinizsə, uyğun konfiqurasiyaları `.env` və `config/auth.php` faylında təkrarlayın.
 
-## License
+### 6. Serveri Başladın
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Layihəni başlatmaq üçün aşağıdakı əmri icra edin:
+
+```bash
+php artisan serve
+```
+
+Server artıq `http://localhost:8000` ünvanında işləməyə başlayacaq.
+
+## API İstifadəsi
+
+API-nin əsas endpointləri aşağıda göstərilmişdir.
+
+### 1. **Hesab Yaratma**
+
+- **Endpoint**: `POST /api/accounts`
+- **Body**:
+  ```json
+  {
+    "balance": 1000
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "id": 1,
+    "balance": 1000,
+    "created_at": "2025-02-12T12:00:00",
+    "updated_at": "2025-02-12T12:00:00"
+  }
+  ```
+
+### 2. **Pul Çıxarışı**
+
+- **Endpoint**: `POST /api/accounts/{account}/withdraw`
+- **Body**:
+  ```json
+  {
+    "amount": 125
+  }
+  ```
+- **Response**:
+  ```json
+  {
+      "message": "Withdrawal successful",
+        "transaction": {
+        "account_id": 3,
+        "amount": 125,
+        "type": "withdraw",
+        "updated_at": "2025-02-12T14:35:27.000000Z",
+        "created_at": "2025-02-12T14:35:27.000000Z",
+        "id": 5
+    },
+    "bills": {
+        "100": 1,
+        "20": 1,
+        "5": 1
+  }
+  ```
+
+### 3. **Əməliyyat Tarixçəsi**
+
+- **Endpoint**: `GET /api/accounts/{account}/history`
+- **Response**:
+  ```json
+  [
+    {
+      "id": 1,
+      "account_id": 1,
+      "amount": 125,
+      "operation_type": "withdrawal",
+      "created_at": "2025-02-12T12:00:00"
+    }
+  ]
+  ```
+
+### 4. **Əməliyyat Silinməsi (Xüsusi İstifadəçilər üçün)**
+
+- **Endpoint**: `DELETE /api/transactions/{transaction}`
+- **Headers**:
+  ```bash
+  Authorization: Bearer <token>
+  ```
+- **Response**:
+  ```json
+  {
+    "message": "Əməliyyat uğurla silindi"
+  }
+  ```
+
+### 5. **Admin Əməliyyatı Silmək Üçün**
+
+Adminlər üçün əməliyyatları silmək icazəsi verilmişdir. Əgər admin deyilsinizsə, 403 Unauthorized xətası alacaqsınız.
+
+## Digər Xüsusiyyətlər
+
+- **Əskinazlar**: ATM-da mövcud olan əskinazlar: 200, 100, 50, 20, 10, 5, 1 AZN.
+- **Minimum əskinaz**: Pul çıxarışı zamanı istifadəçilərə minimum sayda əskinaz verilir.
+
+## Yekun
+
+Bu API layihəsi **ATM idarəetməsi** üçün əsas funksiyaları təmin edir, o cümlədən **hesab yaratmaq**, **pul çıxarmaq**, **əskinasları optimallaşdırmaq** və **admin əməliyyatları** silmək. Hər bir endpoint-in istifadə qaydaları **Postman** və ya digər **API test** vasitələri ilə yoxlanıla bilər.
